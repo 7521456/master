@@ -2,12 +2,11 @@
 
 namespace app\api\model;
 
+use think\Cache;
 use app\common\model\User as UserModel;
-//use app\api\model\Wxapp;
+use app\common\library\helper;
 use app\common\library\wechat\WxUser;
 use app\common\exception\BaseException;
-use think\Cache;
-use think\Request;
 
 /**
  * 用户模型类
@@ -52,7 +51,7 @@ class User extends UserModel
         // 微信登录 获取session_key
         $session = $this->wxlogin($post['code']);
         // 自动注册用户
-        $userInfo = json_decode(htmlspecialchars_decode($post['user_info']), true);
+        $userInfo = helper::jsonDecode(htmlspecialchars_decode($post['user_info']));
         $user_id = $this->register($session['openid'], $userInfo);
         // 生成token (session3rd)
         $this->token = $this->token($session['openid']);
