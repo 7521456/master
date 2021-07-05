@@ -25,7 +25,7 @@ class helper
     }
 
     /**
-     * 获取数组中指定的列
+     * 获取数组中指定的列 [支持多列]
      * @param $source
      * @param $columns
      * @return array
@@ -83,6 +83,21 @@ class helper
         return $sum / 100;
     }
 
+    /**
+     * 在二维数组中查找指定值
+     * @param array $array 二维数组
+     * @param string $searchIdx 查找的索引
+     * @param string $searchVal 查找的值
+     * @return bool
+     */
+    public static function arraySearch($array, $searchIdx, $searchVal)
+    {
+        foreach ($array as $item) {
+            if ($item[$searchIdx] == $searchVal) return $item;
+        }
+        return false;
+    }
+
     public static function setDataAttribute(&$source, $defaultData, $isArray = false)
     {
         if (!$isArray) $dataSource = [&$source]; else $dataSource = &$source;
@@ -122,6 +137,26 @@ class helper
     public static function bcequal($leftOperand, $rightOperand, $scale = 2)
     {
         return self::bccomp($leftOperand, $rightOperand, $scale) === 0;
+    }
+
+    /**
+     * 数组转义为json
+     * @param array|\think\Collection $data
+     * @return string
+     */
+    public static function jsonEncode($data)
+    {
+        return json_encode($data, JSON_UNESCAPED_UNICODE);
+    }
+
+    /**
+     * json转义为数组
+     * @param $json
+     * @return array
+     */
+    public static function jsonDecode($json)
+    {
+        return json_decode($json, true);
     }
 
 }
